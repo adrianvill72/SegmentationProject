@@ -2,7 +2,10 @@ import h5py
 import numpy as np
 import matplotlib.pyplot as plt
 
-for i in range(1,10):
+images = []
+masks = []
+
+for i in range(1,20):
     first_path = r".\brainTumorDataPublic_1-766"
     second_path=r".mat"
     path=first_path+"\\"+str(i)+second_path
@@ -17,10 +20,9 @@ for i in range(1,10):
     with h5py.File(path, 'r') as file:
         # Access the image dataset
         images = np.array(file['cjdata/image'])
-
-        # For visualization, ensure the image data is correctly oriented
-        # You might need to adjust this depending on how the images are stored
         plt.imshow(images, cmap='gray')
+        imageMask= np.array(file["cjdata/tumorMask"])
+        plt.imshow(imageMask, cmap='gray',alpha=0.5)
         plt.title('MRI Image')
-        plt.axis('off')  # Remove axis ticks and labels
+        plt.axis('off')
         plt.show()
