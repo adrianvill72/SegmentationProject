@@ -46,18 +46,18 @@ val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
 model = UNet().to(device)
 criterion = nn.BCEWithLogitsLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-
-# for epoch in range(50):  # Number of epochs
-#   print(f"beginning epoch: {epoch}")
-#     model.train()
-#     for data, target in train_loader:
-#         data, target = data.to(device), target.to(device).unsqueeze(1)
-#         optimizer.zero_grad()
-#         output = model(data)
-#         loss = criterion(output, target)
-#         loss.backward()
-#         optimizer.step()
-#     print(f'Epoch {epoch+1}, Loss: {loss.item()}')
+print("Shape of the tensor:", images_tensor.shape)
+for epoch in range(50):  # Number of epochs
+    print(f"beginning epoch: {epoch}")
+    model.train()
+    for data, target in train_loader:
+        data, target = data.to(device), target.to(device).unsqueeze(1)
+        optimizer.zero_grad()
+        output = model(data)
+        loss = criterion(output, target)
+        loss.backward()
+        optimizer.step()
+    print(f'Epoch {epoch+1}, Loss: {loss.item()}')
 
 for image in X_val:
     image=image.squeeze(0)

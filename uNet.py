@@ -27,15 +27,28 @@ class UNet(nn.Module):
 
     def forward(self, x):
         x1 = self.down1(x)
+        print("x1 shape:", x1.shape)
         p1 = self.pool(x1)
+        print("p1 shape:", p1.shape)
         x2 = self.down2(p1)
+        print("x2 shape:", x2.shape)
         p2 = self.pool(x2)
+        print("p2 shape:", p2.shape)
         x3 = self.down3(p2)
+        print("x3 shape:", x3.shape)
         up3 = F.interpolate(x3, scale_factor=2, mode='bilinear', align_corners=True)
+        print("up3 shape:", up3.shape)
         concat3 = torch.cat([up3, x2], dim=1)
+        print("concat3 shape:", concat3.shape)
         x4 = self.up3(concat3)
+        print("x4 shape:", x4.shape)
         up2 = F.interpolate(x4, scale_factor=2, mode='bilinear', align_corners=True)
+        print("up2 shape:", up2.shape)
         concat2 = torch.cat([up2, x1], dim=1)
+        print("concat2 shape:", concat2.shape)
         x5 = self.up2(concat2)
+        print("x5 shape:", x5.shape)
         output = self.final_conv(x5)
+        print("output shape:", output.shape)
         return output
+
